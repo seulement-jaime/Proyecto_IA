@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guion Maestro de Sustentación y Código · Proyecto Final LEGO IA</title>
+  <style>
+    :root {
+      --navy: #0f233c;
+      --navy-mid: #1a365d;
+      --ivory: #f7f6f2;
+      --white: #ffffff;
+      --blue: #1d5fd4;
+      --blue-soft: #e8f0fe;
+      --red: #d94336;
+      --red-soft: #fdecea;
+      --green: #1b8057;
+      --green-soft: #e6f4ea;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --text: #142032;
+      --muted: #5a697d;
+      --border: #cbd5e0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--ivory);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: var(--white);
+      padding: 28px 20px 22px;
+      border-top: 6px solid var(--red);
+    }
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(144,202,249,0.5);
+      color: #90caf9;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.85rem;
+      line-height: 1.2;
+    }
+    header p {
+      margin: 4px 0;
+      color: #cfe2ff;
+      font-size: 0.95rem;
+    }
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(15,35,60,0.07);
+      padding: 10px 0;
+    }
+    .nav-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--navy);
+      background: #edf2f7;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .nav-links a:hover {
+      background: var(--blue);
+      color: var(--white);
+    }
+    .btn-print {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .btn-print:hover { opacity: 0.9; }
+    section {
+      margin: 26px 0;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      color: var(--navy);
+      border-left: 6px solid var(--blue);
+      padding-left: 12px;
+      margin: 28px 0 16px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .kpi-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1.5px solid var(--border);
+      border-top: 5px solid var(--blue);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .kpi-card.red { border-top-color: var(--red); }
+    .kpi-card.green { border-top-color: var(--green); }
+    .kpi-card.amber { border-top-color: var(--amber); }
+    .kpi-val {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.15;
+    }
+    .kpi-card.red .kpi-val { color: var(--red); }
+    .kpi-card.green .kpi-val { color: var(--green); }
+    .kpi-card.amber .kpi-val { color: var(--amber); }
+    .kpi-lbl {
+      font-weight: 700;
+      font-size: 0.94rem;
+      margin-top: 4px;
+      color: var(--text);
+    }
+    .kpi-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .slide-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--blue);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .slide-card.hero { border-left-color: var(--red); }
+    .slide-card.code { border-left-color: var(--green); }
+    .slide-card.qa { border-left-color: var(--amber); }
+    .slide-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .slide-num {
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+    .slide-card.hero .slide-num { background: var(--red); }
+    .slide-card.code .slide-num { background: var(--green); }
+    .slide-card.qa .slide-num { background: var(--amber); }
+    .slide-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      flex: 1;
+    }
+    .speech-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--blue);
+      padding: 12px 15px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.96rem;
+      color: #1e293b;
+      margin: 8px 0;
+    }
+    .tip-box {
+      background: var(--green-soft);
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      margin-top: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      margin: 12px 0;
+    }
+    th {
+      background: var(--navy);
+      color: var(--white);
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 700;
+    }
+    td {
+      padding: 9px 12px;
+      border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f8fafc; }
+    tr.highlight td { background: var(--blue-soft); font-weight: 600; }
+    code {
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.86em;
+    }
+    ul { margin: 6px 0; padding-left: 20px; }
+    li { margin-bottom: 5px; }
+    @media print {
+      .nav-bar { display: none; }
+      body { background: #fff; }
+      .slide-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="badge">UNIVERSIDAD DEL MAGDALENA · INTELIGENCIA ARTIFICIAL 2026</div>
+    <h1>Guion Maestro de Sustentación y Explicación de Código (Spyder)</h1>
+    <p><strong>Proyecto:</strong> Segmentación y Clasificación de Piezas LEGO mediante Machine Learning y Deep Learning (20 Categorías)</p>
+    <p><strong>Integrantes:</strong> Julio Alfonso Curiel Guerra · Andy Amaya · Sebastian Ruiz · Jaime Ruiz · Luis Villalba &nbsp;|&nbsp; <strong>Docente:</strong> Ing. Gian Carlo Daraviña Peña, M.Sc.</p>
+  </div>
+</header>
+
+<div class="nav-bar">
+  <div class="container nav-inner">
+    <div class="nav-links">
+      <a href="#cifras">⚡ 1. Cifras Clave (2 min)</a>
+      <a href="#diapositivas">🎤 2. Guion Diapositivas (01–18)</a>
+      <a href="#spyder">💻 3. Código en Spyder (# %%)</a>
+      <a href="#modulos">🗂️ 4. Archivos del Proyecto</a>
+      <a href="#preguntas">❓ 5. Preguntas del Profesor</a>
+    </div>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===================================================================== -->
+  <!-- SECCIÓN 1: FICHA RÁPIDA DE CIFRAS CLAVE -->
+  <!-- ===================================================================== -->
+  <section id="cifras">
+    <h2 class="section-title">1. Ficha Rápida de Cifras Clave (Para memorizar en 2 minutos)</h2>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-val">8.044 Fotos</div>
+        <div class="kpi-lbl">20 Categorías (9 Brick + 11 Plate)</div>
+        <div class="kpi-sub">3.464 Base Images (640×480) + 4.580 Cropped Images (64×64). 0 corruptas, 0 duplicados MD5.</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-val">70 / 15 / 15 %</div>
+        <div class="kpi-lbl">0% Data Leakage (timestamp_id)</div>
+        <div class="kpi-sub">Train: 3.206 · Val: 687 · Test: 687. StandardScaler ajustado solo en Train.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">95,16 % Recall</div>
+        <div class="kpi-lbl">Segmentación HSV Dual Otsu</div>
+        <div class="kpi-sub">Pixel Acc: 81,92% · Dice: 0,7011 · IoU: 0,6457 · Apertura 5×5 y Cierre 9×9.</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-val">95,63 % Acc</div>
+        <div class="kpi-lbl">CNN Ganadora (657/687 aciertos)</div>
+        <div class="kpi-sub">F1-Macro: 95,55% · SVM RBF: 90,83% en 12,01 s · ANN/MLP: 89,23% (0,009 ms).</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Puesto / Modelo</th>
+          <th>Entrada</th>
+          <th>Accuracy (Test)</th>
+          <th>F1-Macro</th>
+          <th>Tiempo Entren.</th>
+          <th>Latencia / Muestra</th>
+          <th>Idea Clave para Explicar al Profesor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>1.º CNN (PyTorch)</td>
+          <td>Imagen RGB 64×64×3</td>
+          <td><strong>95,63 %</strong></td>
+          <td>95,55 %</td>
+          <td>2.434,37 s (~40,5 m)</td>
+          <td>11,944 ms</td>
+          <td>3 bloques Conv2D dobles (32→64→128) + BatchNorm + Data Augmentation + Dropout 0,4. Conserva la topología 2D de los tetones.</td>
+        </tr>
+        <tr>
+          <td>2.º SVM (Kernel RBF)</td>
+          <td>325 descriptores (Z-Score)</td>
+          <td><strong>90,83 %</strong></td>
+          <td>90,77 %</td>
+          <td><strong>12,01 s</strong></td>
+          <td>1,268 ms</td>
+          <td>Mejor equilibrio costo-beneficio (C=5,0). Entrena 202 veces más rápido que la CNN. Superó al kernel lineal (83,70%) y polinómico (88,21%).</td>
+        </tr>
+        <tr>
+          <td>3.º Red Densa (ANN/MLP)</td>
+          <td>325 descriptores (Z-Score)</td>
+          <td><strong>89,23 %</strong></td>
+          <td>88,99 %</td>
+          <td>10,51 s</td>
+          <td><strong>0,009 ms</strong></td>
+          <td>Arquitectura 325 → 256 → 128 → 20 con BatchNorm1d y Dropout 0,3. Inferencia ultrarrápida (9 microsegundos).</td>
+        </tr>
+        <tr>
+          <td>4.º Perceptrón (OvR)</td>
+          <td>325 descriptores (Z-Score)</td>
+          <td>76,27 %</td>
+          <td>76,06 %</td>
+          <td>1,89 s</td>
+          <td>0,026 ms</td>
+          <td>20 hiperplanos lineales One-vs-Rest con penalización L2. Limitado por la no-linealidad de rotaciones y perspectivas 3D.</td>
+        </tr>
+        <tr>
+          <td>5.º SGAdaline (SGD MSE)</td>
+          <td>325 descriptores (Z-Score)</td>
+          <td>69,72 %</td>
+          <td>68,68 %</td>
+          <td>45,46 s</td>
+          <td>0,030 ms</td>
+          <td>Programado desde cero en Python: actualiza sobre salida continua minimizando MSE con SGD y decaimiento de tasa η.</td>
+        </tr>
+        <tr>
+          <td>6.º Árbol CART (Gini)</td>
+          <td>325 descriptores (Z-Score)</td>
+          <td>67,83 %</td>
+          <td>67,02 %</td>
+          <td>1,48 s</td>
+          <td>0,001 ms</td>
+          <td>Criterio Gini, max_depth=14. Demostró que Geometría y HOG concentran >65% de la importancia de variables.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- SECCIÓN 2: GUION HABLADO DIAPOSITIVA POR DIAPOSITIVA (01 A 18) -->
+  <!-- ===================================================================== -->
+  <section id="diapositivas">
+    <h2 class="section-title">2. Guion Hablado Diapositiva por Diapositiva (01 a 18)</h2>
+
+    <div class="slide-card hero">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 01 / 18</span>
+        <h3 class="slide-title">Portada: Segmentación y Clasificación de Piezas LEGO</h3>
+      </div>
+      <div class="speech-box">
+        "Buenos días, profesor Gian Carlo y compañeros. A continuación sustentaremos nuestro proyecto final de Inteligencia Artificial, titulado <strong>Segmentación y Clasificación de Piezas LEGO mediante Machine Learning y Deep Learning</strong>. Nuestro sistema integra una etapa de Procesamiento Digital de Imágenes en OpenCV para localizar y aislar cada pieza, seguida de una comparación experimental rigurosa de los <strong>6 modelos</strong> vistos en el curso sobre un catálogo de <strong>20 categorías LEGO</strong> y <strong>8.044 imágenes</strong>."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 02 / 18</span>
+        <h3 class="slide-title">Resumen Ejecutivo y Síntesis de Hallazgos Clave</h3>
+      </div>
+      <div class="speech-box">
+        "En esta diapositiva resumimos los cuatro pilares de nuestra investigación:<br>
+        1) Auditamos las <strong>8.044 imágenes</strong> asegurando <strong>0% de fuga de datos (Data Leakage)</strong> mediante una partición agrupada por el código de captura <code>timestamp_id</code> (70% entrenamiento, 15% validación y 15% prueba).<br>
+        2) Nuestro algoritmo de segmentación en OpenCV, <strong>HSV Dual Otsu</strong>, alcanza un <strong>Recall de píxel del 95,16%</strong>, preservando el cuerpo físico completo de cada bloque.<br>
+        3) Demostramos que la <strong>forma geométrica explica cerca del 90% del reconocimiento</strong>, y que la <strong>Red Neuronal Convolucional (CNN)</strong> es el modelo ganador absoluto con <strong>95,63% de exactitud</strong> (657 aciertos de 687 pruebas).<br>
+        4) Finalmente, el modelo <strong>SVM con Kernel RBF</strong> se consagra como el ganador en eficiencia computacional, logrando <strong>90,83% de exactitud</strong> en apenas <strong>12,01 segundos</strong> de entrenamiento."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 03 / 18</span>
+        <h3 class="slide-title">Planteamiento del Problema, Justificación y Objetivos</h3>
+      </div>
+      <div class="speech-box">
+        "El problema técnico consiste en recibir una fotografía, localizar las piezas LEGO de forma no destructiva y clasificarlas dentro de 20 categorías superando cuatro dificultades visuales:<br>
+        • <strong>Variación cromática severa:</strong> Una misma pieza (ej. <code>Brick 2×4</code>) existe en azul, rojo, amarillo, verde, marrón o negro; el modelo debe clasificar por geometría y tetones, sin sesgo de color.<br>
+        • <strong>Similitud geométrica entre categorías vecinas:</strong> Diferencias milimétricas como <code>Plate 1×2</code> vs <code>Plate 1×3</code>, o la diferencia de altura entre un <code>Brick</code> (alto) y un <code>Plate</code> (plano) vista desde arriba.<br>
+        • <strong>Perspectiva, rotación y reflejos:</strong> Rotaciones arbitrarias de 0° a 360°, sombras entre tetones y brillo especular del plástico ABS.<br>
+        • <strong>Contacto entre piezas:</strong> Cuando dos piezas se tocan, un contorno clásico las fusiona en una sola.<br>
+        Por ello diseñamos una arquitectura desacoplada donde OpenCV aísla la región de interés (ROI) y los 6 clasificadores compiten bajo los 7 objetivos específicos listados a la derecha."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 04 / 18</span>
+        <h3 class="slide-title">Estructura del Dataset LEGO_BRICKS y Auditoría de Calidad</h3>
+      </div>
+      <div class="speech-box">
+        "Nuestro dataset comprende dos colecciones: <strong>3.464 fotografías de escena base</strong> en resolución 640×480 píxeles sobre mesa retroiluminada, y <strong>4.580 recortes individuales (Cropped Images)</strong> distribuidos en las <strong>20 categorías</strong>: 9 de la familia <strong>Brick</strong> (bloques altos) y 11 de la familia <strong>Plate</strong> (placas planas).<br>
+        Como muestra la <strong>Figura 1</strong> arriba a la derecha, el dataset está balanceado entre 188 y 329 imágenes por clase. En la auditoría detectamos que 5 clases Brick (<code>1×1</code> a <code>2×2</code>) no tenían fotografías en Base Images, pero sí cuentan con 1.116 recortes en Cropped Images, por lo que los 6 modelos se entrenan sobre las 20 clases completas.<br>
+        En la <strong>Figura 2</strong> abajo a la derecha vemos que el tamaño de los recortes varía según la pieza, lo que justifica estandarizar la entrada a <strong>64×64 píxeles</strong>. Además, comprobamos con hashes MD5 que hay <strong>0 archivos corruptos y 0 duplicados exactos</strong>."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 05 / 18</span>
+        <h3 class="slide-title">Control de Fuga de Datos (Data Leakage) y Particionado</h3>
+      </div>
+      <div class="speech-box">
+        "Para garantizar validez experimental, evitamos estrictamente la fuga de datos (Data Leakage). Cada fotografía base (<code>2_Brick_..._180708213430.jpg</code>) comparte una marca de tiempo única de 12 dígitos (<code>timestamp_id</code>) con su recorte (<code>1_Brick_..._180708213430.jpg</code>).<br>
+        En <code>data_loader.py</code> realizamos una <strong>Partición Estratificada Agrupada por timestamp_id</strong>, asegurando que una misma captura jamás aparezca al mismo tiempo en entrenamiento y en prueba:<br>
+        • <strong>Entrenamiento (70%):</strong> 3.206 muestras.<br>
+        • <strong>Validación (15%):</strong> 687 muestras para sintonizar hiperparámetros y kernels.<br>
+        • <strong>Prueba (15%):</strong> 687 muestras para la evaluación ciega final.<br>
+        Asimismo, el escalador <code>StandardScaler</code> calcula la media μ y desviación σ <strong>únicamente sobre las 3.206 muestras de entrenamiento</strong> (<code>fit_transform</code>), y solo aplica <code>transform</code> en validación y prueba."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 06 / 18</span>
+        <h3 class="slide-title">Pipeline de Segmentación en OpenCV: HSV Dual Otsu y Morfología</h3>
+      </div>
+      <div class="speech-box">
+        "En <code>hsv_segmenter.py</code> implementamos la segmentación convirtiendo la imagen de BGR al espacio <strong>HSV</strong> para separar el color de la iluminación, aplicando nuestra estrategia <strong>HSV Dual Otsu</strong>:<br>
+        1) <strong>En el canal de Saturación (S)</strong> aplicamos umbralización automática de <strong>Otsu</strong>, que maximiza la varianza entre clases aislando todas las piezas plásticas de colores vivos frente al fondo translúcido.<br>
+        2) <strong>En el canal de Valor (V)</strong> aplicamos un <strong>umbral inverso</strong> (<code>V &lt; 130</code> y adaptativo a la mediana del fondo) porque las piezas negras carecen de saturación pero absorben la luz, y además esto captura las paredes laterales 3D sombreadas de los Bricks.<br>
+        3) Combinamos ambas máscaras con una operación lógica <strong>OR</strong> (<code>M_S OR M_V</code>), aplicamos una <strong>Apertura morfológica 5×5</strong> para eliminar ruido del fondo y un <strong>Cierre morfológico 9×9</strong> (2 iteraciones) para rellenar las sombras internas de los tetones. Finalmente extraemos contornos con área mayor a 400 px² y un margen de seguridad de 15 píxeles."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 07 / 18</span>
+        <h3 class="slide-title">Validación de Segmentación y Separación con Watershed</h3>
+      </div>
+      <div class="speech-box">
+        "En la Tabla 2 validamos las máscaras sobre 35 pares de imágenes frente a Ground Truth. Nuestro método <strong>HSV Dual Otsu</strong> alcanza un <strong>Recall de píxel del 95,16%</strong>, <strong>Pixel Accuracy de 81,92%</strong>, Dice de 0,7011 e IoU de 0,6457. Un Recall del 95,16% es ideal porque asegura que no cortamos tetones ni esquinas de la pieza antes de pasarla al clasificador.<br>
+        A la derecha (<strong>Figura 3</strong>) mostramos nuestro experimento con el algoritmo <strong>Watershed</strong> para piezas en contacto: calculamos la <strong>Transformada de Distancia Euclidiana</strong> y fijamos como marcadores seguros el umbral <code>0,45 × D_max</code>. Mientras el contorno estándar fusiona las dos piezas en 1 solo bloque, Watershed logra separarlas en 2 instancias independientes. Se activa solo ante conectividad múltiple para evitar fragmentar los tetones en piezas sueltas."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 08 / 18</span>
+        <h3 class="slide-title">Ingeniería de Características: Geometría, Hu, HOG y Color HSV</h3>
+      </div>
+      <div class="speech-box">
+        "En <code>feature_extractor.py</code> transformamos cada recorte de 64×64 píxeles en vectores numéricos combinando cuatro familias de descriptores:<br>
+        1) <strong>6 Métricas Geométricas:</strong> Área y perímetro normalizados, relación de aspecto (<code>w/h</code>), extensión, solidez (clave para piezas cóncavas en forma de L) y circularidad (clave para <code>Plate_1x1_Round</code>).<br>
+        2) <strong>7 Momentos Invariantes de Hu:</strong> Invariantes a traslación, escala y rotación 2D, estabilizados con transformación logarítmica con signo.<br>
+        3) <strong>288 Descriptores HOG (Histograma de Gradientes Orientados):</strong> Calculados en celdas de 16×16 px, bloques 2×2 normalizados con L2-Hys y 8 orientaciones angulares. El HOG captura la estructura repetitiva de los tetones y las rejillas.<br>
+        4) <strong>24 Histogramas HSV:</strong> 8 bins por cada canal H, S y V.<br>
+        Así comparamos dos escenarios: <strong>Escenario 1 (Solo Forma = 301 características)</strong> y <strong>Escenario 2 (Forma + Color = 325 características)</strong>."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 09 / 18</span>
+        <h3 class="slide-title">Experimento Forma vs. Color: La Geometría Define a la Pieza</h3>
+      </div>
+      <div class="speech-box">
+        "Al entrenar los modelos en ambos escenarios (Tabla 3 y <strong>Figura 5</strong>), comprobamos que con <strong>solo las 301 variables de forma</strong> (sin color), el SVM ya alcanza <strong>89,81%</strong> y la Red Neuronal MLP <strong>88,06%</strong>.<br>
+        Al añadir las 24 características de color HSV, la exactitud sube apenas <strong>+1,02 puntos en SVM (90,83%)</strong> y <strong>+1,17 puntos en MLP (89,23%)</strong>. Esto confirma que <strong>cerca del 90% del poder predictivo reside en la geometría y en los gradientes HOG de los tetones</strong>, garantizando que el sistema reconozca la forma de la pieza sin importar de qué color sea el plástico."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 10 / 18</span>
+        <h3 class="slide-title">Arquitectura y Sintonización de los 6 Modelos Evaluados</h3>
+      </div>
+      <div class="speech-box">
+        "En esta tabla sintetizamos los 6 algoritmos implementados y sintonizados con el conjunto de validación:<br>
+        1) <strong>Perceptrón de Rosenblatt:</strong> Esquema One-vs-Rest de 20 hiperplanos lineales con regularización L2 y calibración sigmoide.<br>
+        2) <strong>SGAdaline:</strong> Implementado desde cero en Python entrenando 20 neuronas lineales adaptativas con Descenso de Gradiente Estocástico (SGD) para minimizar el Error Cuadrático Medio (MSE), con tasa de aprendizaje decreciente.<br>
+        3) <strong>SVM:</strong> Evaluamos tres kernels en validación: Lineal (83,70%), Polinómico grado 3 (88,21%) y <strong>Kernel Gaussiano RBF con C=5,0</strong>, que fue el ganador con 90,83% en prueba.<br>
+        4) <strong>Árbol de Decisión CART:</strong> Criterio de Impureza de Gini con profundidad máxima sintonizada en <code>max_depth = 14</code>.<br>
+        5) <strong>Red Neuronal Densa (ANN/MLP):</strong> Arquitectura en PyTorch <code>325 → 256 → 128 → 20</code> con <code>BatchNorm1d</code>, <code>ReLU</code>, <code>Dropout(0,3)</code> y optimizador Adam.<br>
+        6) <strong>Red Neuronal Convolucional (CNN):</strong> Recibe directamente el tensor RGB 64×64×3 a través de 3 bloques convolucionales dobles (32 → 64 → 128 filtros 3×3)."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 11 / 18</span>
+        <h3 class="slide-title">Benchmark Comparativo General de los 6 Modelos (687 Muestras Test)</h3>
+      </div>
+      <div class="speech-box">
+        "En la Tabla 4 y la <strong>Figura 6</strong> vemos el benchmark definitivo sobre los 687 recortes de prueba:<br>
+        • <strong>Ganador Absoluto en Exactitud — CNN:</strong> <strong>95,63% de Accuracy</strong> y <strong>95,55% de F1-Macro</strong> (+4,80 puntos por encima de SVM), con un tiempo de entrenamiento en CPU de 40,5 minutos y latencia de 11,94 ms.<br>
+        • <strong>Ganador en Eficiencia Computacional — SVM RBF:</strong> <strong>90,83% de Accuracy</strong> entrenándose en solo <strong>12,01 segundos</strong> (una reducción del 99,5% del tiempo de entrenamiento respecto a la CNN) y 1,27 ms de latencia.<br>
+        • <strong>Menor Latencia en Alta Precisión — Red Densa MLP:</strong> <strong>89,23% de Accuracy</strong> en 10,51 segundos y apenas <strong>9 microsegundos (0,009 ms)</strong> por pieza.<br>
+        • Les siguen Perceptrón (76,27%), SGAdaline (69,72%) y Árbol CART (67,83%)."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 12 / 18</span>
+        <h3 class="slide-title">Análisis de Modelos Clásicos: Perceptrón, SGAdaline y Árbol CART</h3>
+      </div>
+      <div class="speech-box">
+        "Analizando los modelos clásicos: en las matrices de confusión del <strong>Perceptrón (76,27%)</strong> y <strong>SGAdaline (69,72%)</strong> vemos que los hiperplanos estrictamente lineales no logran separar completamente 20 clases sometidas a rotaciones 3D. Además, la pérdida cuadrática MSE de Adaline es más sensible a valores extremos en los histogramas que el Perceptrón con penalización L2.<br>
+        Por su parte, el <strong>Árbol de Decisión CART (67,83%)</strong> hace particiones ortogonales eje por eje, pero nos aporta el análisis de interpretabilidad de la <strong>Figura 11</strong> (abajo a la derecha): las variables geométricas (extensión, relación de aspecto y solidez) junto con las celdas centrales del HOG concentran más del <strong>65% de la ganancia de pureza Gini</strong>."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 13 / 18</span>
+        <h3 class="slide-title">Modelos No Lineales de Alto Desempeño: SVM RBF y Red Densa (MLP)</h3>
+      </div>
+      <div class="speech-box">
+        "Al pasar a fronteras no lineales curvas sobre las 325 características damos un salto de más de 14 puntos porcentuales:<br>
+        • Abajo a la izquierda (<strong>Figura 9</strong>) vemos la matriz de confusión del <strong>SVM con Kernel RBF (90,83% Accuracy, 91,46% Precision Macro)</strong>, con una diagonal principal muy definida.<br>
+        • Abajo a la derecha (<strong>Figura 10</strong>) vemos las curvas de aprendizaje de la <strong>Red Neuronal Densa MLP (89,23%)</strong> durante 35 épocas: gracias a <code>BatchNorm1d</code> y <code>Dropout(0,3)</code>, la pérdida de validación desciende suavemente junto a la de entrenamiento hasta ~0,34 sin presentar sobreajuste."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 14 / 18</span>
+        <h3 class="slide-title">Red Neuronal Convolucional (CNN): Arquitectura y Convergencia (Clase 7)</h3>
+      </div>
+      <div class="speech-box">
+        "Nuestra <strong>CNN ganadora (95,63%)</strong> aplica las técnicas de regularización y diseño de la <strong>Clase 7</strong>:<br>
+        • <strong>Entrada y Data Augmentation:</strong> Imágenes RGB 64×64×3 con flip horizontal aleatorio (50%), rotación de ±15° y variación de brillo/contraste (ColorJitter ±15%).<br>
+        • <strong>3 Bloques Convolucionales Dobles:</strong> Bloque 1 con dos capas de 32 filtros 3×3 + BatchNorm2d + ReLU + MaxPool2d (32×32); Bloque 2 con 64 filtros (16×16); Bloque 3 con 128 filtros (8×8) seguido de <code>AdaptiveAvgPool2d(4×4)</code>, que al aplanarse (<code>Flatten</code>) produce <code>4 × 4 × 128 = 2.048</code> características espaciales.<br>
+        • <strong>Cabezal y Optimización:</strong> Capa densa de 256 neuronas con BatchNorm1d, <code>Dropout(0,40)</code> y salida Softmax de 20 clases, entrenada 25 épocas con <code>AdamW (lr = 0,001)</code> y <code>CosineAnnealingLR</code>, guardando el mejor checkpoint de validación. En la <strong>Figura 7</strong> observamos cómo <code>Train Loss</code> y <code>Val Loss</code> convergen juntas a ~0,15 sin sobreajuste."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 15 / 18</span>
+        <h3 class="slide-title">Matriz de Confusión de la CNN y Diagnóstico de Errores (Clase 8)</h3>
+      </div>
+      <div class="speech-box">
+        "Aplicando el análisis de Matriz de Confusión de la <strong>Clase 8</strong> (<strong>Figura 8</strong>), sobre las 687 imágenes de prueba la CNN logra <strong>657 aciertos y únicamente 30 errores</strong>, alcanzando 100% de precisión en clases como <code>Brick_1x3</code>, <code>Plate_1x1_Round</code> y <code>Plate_1x2_Grill</code>.<br>
+        ¿Dónde ocurren los 30 errores? En dos situaciones físicas:<br>
+        1) <strong>Longitudes contiguas en perspectiva inclinada (caso <code>Plate_1x4</code>):</strong> De 33 piezas acierta 28, confundiendo 4 con <code>Plate_1x3</code> cuando el ángulo oblicuo acorta visualmente la pieza.<br>
+        2) <strong>Tomas totalmente cenitales (90° desde arriba):</strong> Donde la pared vertical de un <code>Brick</code> queda oculta y su vista superior de tetones luce idéntica a un <code>Plate</code>."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 16 / 18</span>
+        <h3 class="slide-title">Sistema Integrado End-to-End, Filtro de Piel YCrCb y Spyder IDE</h3>
+      </div>
+      <div class="speech-box">
+        "En el Capítulo 6 articulamos el pipeline completo de 8 pasos (<code>pipeline.py</code> y <code>Proyecto_Final_Spyder.py</code>):<br>
+        • Arriba a la izquierda (<strong>Figura 12</strong>) vemos el reporte visual de 4 paneles sobre una escena completa: (1) Fotografía Original, (2) Máscara Binaria HSV, (3) Pieza Aislada y (4) Clasificación final <code>Brick_2x2_L</code> con 98,0% de confianza.<br>
+        • Arriba a la derecha mostramos cómo solucionamos la prueba con fotos externas donde una mano sostiene la pieza: implementamos un <strong>filtro de piel humana en el espacio YCrCb</strong> (<code>Cr ∈ [133, 173], Cb ∈ [77, 127]</code>) que elimina los dedos de la máscara.<br>
+        • Todo el proyecto se ejecuta en <strong>Spyder IDE</strong> mediante 7 celdas <code># %%</code>, permitiendo inspeccionar todas las matrices en el <em>Variable Explorer</em> y clasificar cualquier imagen en vivo con los 6 modelos a la vez."
+      </div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 17 / 18</span>
+        <h3 class="slide-title">Limitaciones Identificadas y Hoja de Ruta (Trabajo Futuro)</h3>
+      </div>
+      <div class="speech-box">
+        "Como trabajo futuro proponemos cinco mejoras puntuales frente a las limitaciones observadas:<br>
+        1) Para fondos complejos no controlados (madera, alfombras), pasar de umbralización HSV a segmentación de instancias con <strong>Mask R-CNN o YOLOv8-seg</strong>.<br>
+        2) Activar <strong>Watershed</strong> condicionalmente por análisis de concavidad del contorno.<br>
+        3) Incorporar <strong>estimación de pose 6D (DenseFusion) o cámaras RGB-D</strong> para distinguir la altura 3D en tomas cenitales.<br>
+        4) Aplicar <strong>Transfer Learning (MobileNetV3) con cuantización INT8</strong> para bajar la latencia en CPU a menos de 2 ms.<br>
+        5) Implementar <strong>Redes Siamesas (Open-Set)</strong> para reconocer piezas LEGO nuevas fuera de las 20 categorías."
+      </div>
+    </div>
+
+    <div class="slide-card hero">
+      <div class="slide-header">
+        <span class="slide-num">DIAPOSITIVA 18 / 18</span>
+        <h3 class="slide-title">Conclusiones Generales y Referencias Bibliográficas</h3>
+      </div>
+      <div class="speech-box">
+        "Para concluir: desarrollamos y validamos un sistema integral de visión por computador sobre 8.044 imágenes y 20 clases LEGO sin fuga de datos. Demostramos que la segmentación <strong>HSV Dual Otsu</strong> retiene el <strong>95,16%</strong> de la pieza, que la geometría y los gradientes HOG explican cerca del <strong>90%</strong> del reconocimiento, que la <strong>CNN es el modelo más exacto con 95,63%</strong> y que el <strong>SVM RBF es la alternativa más eficiente con 90,83% en 12 segundos</strong>. Muchas gracias profesor; a continuación podemos mostrarle la ejecución en Spyder."
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- SECCIÓN 3: CÓMO EXPLICAR EL CÓDIGO EN SPYDER -->
+  <!-- ===================================================================== -->
+  <section id="spyder">
+    <h2 class="section-title">3. Cómo Explicar y Ejecutar el Código en Spyder (<code>Proyecto_Final_Spyder.py</code>)</h2>
+
+    <div class="slide-card code">
+      <div class="slide-header">
+        <span class="slide-num">DEMO EN VIVO EN SPYDER</span>
+        <h3 class="slide-title">Guía de las 7 Celdas <code># %%</code> en <code>Proyecto_Final_Spyder.py</code></h3>
+      </div>
+      <p>En Spyder 6 abres <code>Proyecto_Final_Spyder.py</code>. Puedes correr todo con <strong><code>F5</code></strong> (tarda ~12 segundos porque carga los pesos ya entrenados de <code>models/checkpoints/</code>) o correr celda por celda con <strong><code>Ctrl + Enter</code></strong>:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Celda <code># %%</code></th>
+            <th>Qué hace el código</th>
+            <th>Qué mostrarle al Profesor en Spyder</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Celda 1</strong><br><code># %% 1. Librerias y Configuracion</code></td>
+            <td>Importa librerías, localiza automáticamente la carpeta <code>LEGO_BRICKS</code> mediante <code>config.py</code>, lee <code>dataset_splits.json</code> (3.206 Train / 687 Val / 687 Test) y grafica una cuadrícula 4×5 con 1 ejemplo de cada una de las 20 clases.</td>
+            <td>En <strong>Plots</strong>: señalar el catálogo visual de las 20 piezas LEGO.<br>En <strong>Variable Explorer</strong>: mostrar la lista <code>class_names</code> (20 clases).</td>
+          </tr>
+          <tr>
+            <td><strong>Celda 2</strong><br><code># %% 2. Cargar Caracteristicas</code></td>
+            <td>Carga los archivos <code>features_shape_only.npz</code> (301 columnas) y <code>features_shape_and_color.npz</code> (325 columnas) ya escalados con <code>StandardScaler</code>.</td>
+            <td>En <strong>Variable Explorer</strong>: abrir con doble clic <code>X_train</code> <code>(3206, 325)</code>, <code>X_test</code> <code>(687, 325)</code>, <code>X_train_shape</code> <code>(3206, 301)</code> y <code>y_test</code> <code>(687,)</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Celda 3</strong><br><code># %% 3. Cargar los 6 Modelos y Evaluar</code></td>
+            <td>Instancia <code>LEGODetectionPipeline</code>, carga los 6 modelos desde <code>models/checkpoints/</code> (<code>.joblib</code> y <code>.pth</code>), predice sobre <code>X_test</code> y calcula las 6 matrices de confusión 20×20. <em>(Si cambias <code>REENTRENAR_DESDE_CERO = True</code>, vuelve a entrenar todo).</em></td>
+            <td>En <strong>Variable Explorer</strong>: abrir con doble clic <code>df_comparacion_porcentaje</code> (tabla comparativa) y cualquiera de las matrices 20×20: <code>cm_cnn</code>, <code>cm_svm</code>, <code>cm_ann</code>, <code>cm_perceptron</code>, <code>cm_sgadaline</code>, <code>cm_arbol</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Celda 4</strong><br><code># %% 4. Graficas de Desempeño</code></td>
+            <td>Muestra en el panel <strong>Plots</strong> las curvas de entrenamiento y validación (Loss y Accuracy) de la ANN y la CNN, el gráfico Forma vs Color y la importancia de variables del Árbol.</td>
+            <td>En <strong>Plots</strong>: explicar que las curvas de validación no se disparan hacia arriba gracias a BatchNorm, Dropout y Data Augmentation.</td>
+          </tr>
+          <tr>
+            <td><strong>Celda 5</strong><br><code># %% 5. Matrices de Confusion</code></td>
+            <td>Dibuja en una figura 2×3 las 6 matrices de confusión juntas.</td>
+            <td>En <strong>Plots</strong>: comparar cómo la diagonal se limpia al pasar de modelos lineales/árbol a SVM y CNN.</td>
+          </tr>
+          <tr>
+            <td><strong>Celda 6</strong><br><code># %% 6. Prediccion sobre Lote de Test</code></td>
+            <td>Igual que al final de <code>3_CNN_CIFAR10.py</code> en clase: evalúa 20 imágenes de prueba (1 de cada clase), saca <code>preds = np.argmax(probs, axis=1)</code> y <code>confianza = probs.max(axis=1)</code>, imprime en consola <code>Real vs Predicción vs Confianza</code> y grafica las 20 piezas.</td>
+            <td>En <strong>Consola</strong>: mostrar que acierta 19 de las 20 muestras.<br>En <strong>Plots</strong>: títulos en verde (acierto) y rojo (error).</td>
+          </tr>
+          <tr class="highlight">
+            <td><strong>Celda 7</strong><br><code># %% 7. Subir / Probar Cualquier Imagen</code></td>
+            <td>Define <code>probar_imagen_en_spyder(...)</code>. Toma una fotografía completa de mesa (<code>2_Brick_2x4_...jpg</code>) o abre una ventana de Windows para elegir cualquier foto, la segmenta con OpenCV y la clasifica con <strong>los 6 modelos a la vez</strong>.</td>
+            <td>En <strong>Plots</strong>: muestra (1) los 4 pasos de segmentación OpenCV y (2) el recorte junto a la imagen oficial del catálogo, el Top-5 de probabilidades y las barras comparativas de los 6 modelos.<br>En <strong>Variable Explorer</strong>: abrir <code>df_prediccion_6_modelos</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tip-box">
+        <strong>💡 Tip si el profesor dice "Pruébame otra imagen que yo elija":</strong><br>
+        En la consola de Spyder (o descomentando la última línea de la Celda 7) ejecutas:<br>
+        <code>df_prediccion_6_modelos = probar_imagen_en_spyder(abrir_ventana_archivo=True)</code><br>
+        Se abrirá el explorador de archivos de Windows para seleccionar cualquier imagen de <code>Base Images</code>, <code>Cropped Images</code> o externa.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- SECCIÓN 4: MAPA DE ARCHIVOS DEL PROYECTO -->
+  <!-- ===================================================================== -->
+  <section id="modulos">
+    <h2 class="section-title">4. Mapa de Archivos del Proyecto (Por si el profesor pide abrir un módulo)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Archivo / Carpeta</th>
+          <th>Función Exacta dentro de <code>Proyecto_IA</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>config.py</code></td>
+          <td>Define las 20 clases (<code>BRICK_CLASSES</code> y <code>PLATE_CLASSES</code>), la semilla <code>RANDOM_SEED = 42</code>, proporciones <code>70/15/15</code>, tamaño <code>CNN_INPUT_SIZE = (64, 64)</code> y localiza automáticamente la carpeta <code>LEGO_BRICKS</code>.</td>
+        </tr>
+        <tr>
+          <td><code>preprocessing/data_loader.py</code></td>
+          <td>Extrae el <code>timestamp_id</code> de 12 dígitos del nombre de cada imagen y realiza la partición estratificada agrupada sin Data Leakage, guardándola en <code>data/dataset_splits.json</code>.</td>
+        </tr>
+        <tr>
+          <td><code>segmentation/hsv_segmenter.py</code></td>
+          <td>Contiene la clase <code>HSVSegmenter</code> con <code>segment_hsv_otsu</code> (Otsu en S + inverso en V), <code>clean_mask</code> (Apertura 5×5 y Cierre 9×9), <code>apply_watershed_separation</code> (Transformada de Distancia 0,45·D_max) y <code>remove_skin_tones</code> (filtro de piel en YCrCb).</td>
+        </tr>
+        <tr>
+          <td><code>features/feature_extractor.py</code></td>
+          <td>Contiene <code>LEGOFeatureExtractor</code>: extrae las 6 métricas geométricas, los 7 Momentos de Hu, los 288 descriptores HOG (<code>skimage.feature.hog</code>) y los 24 bins de histogramas HSV, además de aplicar el <code>StandardScaler</code> guardado en <code>data/scaler_all.joblib</code>.</td>
+        </tr>
+        <tr>
+          <td><code>models/sgadaline_model.py</code></td>
+          <td>Implementación matemática desde cero de <code>BinarySGAdaline</code> (regla delta continua con SGD y función de costo MSE) y <code>MulticlassSGAdaline</code> (20 clasificadores One-vs-Rest con calibración Softmax).</td>
+        </tr>
+        <tr>
+          <td><code>models/perceptron_model.py</code><br><code>models/svm_model.py</code><br><code>models/decision_tree_model.py</code></td>
+          <td>Implementaciones con Scikit-Learn de Perceptrón OvR calibrado, SVM (con función <code>tune_svm_kernels</code> que evalúa Lineal, Polinómico y RBF) y Árbol CART (con <code>tune_decision_tree</code> y gráfico de importancia de Gini).</td>
+        </tr>
+        <tr>
+          <td><code>models/neural_net_model.py</code><br><code>models/cnn_model.py</code></td>
+          <td>Implementaciones en PyTorch de la Red Neuronal Densa <code>MLPNet</code> (325→256→128→20) y de la Red Convolucional <code>LEGOConvNet</code> (3 bloques <code>ConvBlock</code> 32→64→128 + Data Augmentation + AdamW).</td>
+        </tr>
+        <tr>
+          <td><code>pipeline.py</code></td>
+          <td>Clase <code>LEGODetectionPipeline</code> que integra la segmentación OpenCV con los 6 clasificadores entrenados para procesar cualquier fotografía de principio a fin.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- SECCIÓN 5: BANCO DE PREGUNTAS DEL PROFESOR CON RESPUESTAS -->
+  <!-- ===================================================================== -->
+  <section id="preguntas">
+    <h2 class="section-title">5. Preguntas Típicas del Prof. Gian Carlo Daraviña (y Respuestas Exactas)</h2>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 1 · CLASE 1</span>
+        <h3 class="slide-title">¿Cuál es la diferencia matemática entre el Perceptrón y SGAdaline?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> En el <strong>Perceptrón</strong>, los pesos se actualizan usando la salida <em>después</em> de la función escalón (<code>ŷ ∈ {-1, +1}</code>), por lo que solo corrige cuando comete un error de clasificación. En cambio, en <strong>Adaline / SGAdaline</strong>, los pesos se actualizan usando la salida lineal continua <code>z = wᵀx + b</code> <em>antes</em> del umbralizador, minimizando una función de costo continua y derivable: el <strong>Error Cuadrático Medio (MSE = ½ ∑(y - z)²)</strong> mediante Descenso de Gradiente Estocástico (SGD) muestra por muestra.</p>
+    </div>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 2 · PREPROCESAMIENTO</span>
+        <h3 class="slide-title">¿Por qué aplicaron <code>StandardScaler</code> y por qué solo se hace <code>fit_transform</code> en <code>X_train</code>?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> Porque las 325 características tienen escalas muy diferentes (por ejemplo, un momento de Hu logarítmico ronda valores de 5 a 10, mientras que un bin de histograma HSV vale 0,04). Si no llevamos cada columna a media 0 y desviación estándar 1 (<code>z = (x - μ)/σ</code>), las variables de mayor magnitud dominan el cálculo de distancias en el kernel RBF de SVM y los gradientes en Adaline y MLP. Y hacemos <code>fit_transform</code> únicamente sobre <code>X_train</code> (y solo <code>transform</code> en validación y prueba) para no filtrar información estadística del conjunto de prueba (evitar <em>Data Leakage</em>).</p>
+    </div>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 3 · CLASE 2 (SVM)</span>
+        <h3 class="slide-title">¿Qué es el margen en SVM, qué controla el parámetro C y por qué ganó el Kernel RBF?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> El <strong>margen</strong> (<code>2 / ||w||</code>) es la franja de separación entre el hiperplano de decisión y los puntos más cercanos de cada clase (los <strong>vectores de soporte</strong>). El parámetro <strong>C</strong> regula el equilibrio entre maximizar el margen y penalizar errores de clasificación (margen blando): con <code>C = 5,0</code> logramos fronteras firmes sin sobreajustar al ruido. Ganó el <strong>Kernel Gaussiano RBF</strong> (90,83%) sobre el Lineal (83,70%) porque mediante el <em>truco del kernel</em> proyecta implícitamente las 325 características a un espacio de dimensión superior donde las variaciones no lineales de rotación y perspectiva de las piezas sí son separables.</p>
+    </div>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 4 · ÁRBOLES DE DECISIÓN</span>
+        <h3 class="slide-title">¿Qué mide la Impureza de Gini en el Árbol y por qué limitaron <code>max_depth = 14</code>?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> La <strong>Impureza de Gini</strong> (<code>I_G = 1 - ∑ p_k²</code>) mide la probabilidad de clasificar mal un elemento elegido al azar dentro de un nodo; vale <code>0</code> cuando el nodo es totalmente puro (todas las muestras pertenecen a una misma clase LEGO). Limitamos la profundidad máxima a <code>max_depth = 14</code> porque un árbol sin restricción de profundidad sigue dividiendo hasta dejar hojas de 1 sola muestra, memorizando el ruido de entrenamiento (<em>overfitting</em>).</p>
+    </div>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 5 · CONTEO DE PARÁMETROS EN LA CNN</span>
+        <h3 class="slide-title">En la CNN, ¿de dónde sale exactamente el número <code>2.048</code> en la capa <code>Flatten</code>?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> Nuestro tercer bloque convolucional tiene <strong>128 filtros</strong> (128 canales de salida) y a su salida le aplicamos un <code>AdaptiveAvgPool2d((4, 4))</code>, dejando cada mapa de activación de tamaño <code>4 × 4</code>. Al aplanar ese tensor tridimensional con <code>Flatten</code>, multiplicamos: <strong><code>4 (alto) × 4 (ancho) × 128 (canales) = 2.048</code></strong> características que entran a la capa densa de 256 neuronas.</p>
+    </div>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 6 · CLASES 4, 5, 6 Y 7 (HIPERPARÁMETROS Y OVERFITTING)</span>
+        <h3 class="slide-title">¿Qué pasaría si ponemos <code>learning_rate = 0.1</code> en Adam, y cómo evitaron el sobreajuste (overfitting) en la CNN?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> Como comprobamos en las Clases 4 y 5, un <code>learning_rate = 0.1</code> en Adam es excesivamente grande: los pasos del gradiente divergen saltándose el mínimo de la función de pérdida y la red queda adivinando al azar (para 20 clases daría ~5% de accuracy). Por eso usamos <code>learning_rate = 0.001</code> con ajuste cosenoidal (<code>CosineAnnealingLR</code>). Y para evitar que la pérdida de validación subiera por sobreajuste, aplicamos las técnicas de la <strong>Clase 7</strong>: <strong>Data Augmentation</strong> (rotaciones ±15°, flips y brillo), <strong>Batch Normalization</strong> en cada bloque convolucional, <strong>Dropout de 0,40</strong> y guardado automático de los pesos de la mejor época de validación (<em>Early Stopping</em>).</p>
+    </div>
+
+    <div class="slide-card qa">
+      <div class="slide-header">
+        <span class="slide-num">PREGUNTA 7 · COMPARATIVA FINAL</span>
+        <h3 class="slide-title">Si tuvieran que implementar este sistema en una fábrica real, ¿usan la CNN o el SVM?</h3>
+      </div>
+      <p><strong>Respuesta:</strong> Depende del hardware disponible:<br>
+      • Si contamos con una estación de cómputo estándar o GPU donde buscamos la <strong>máxima calidad de inspección</strong>, elegimos la <strong>CNN (95,63% de exactitud)</strong> porque comete menos de la mitad de errores que cualquier modelo clásico al preservar la estructura espacial 2D de los tetones.<br>
+      • Si debemos desplegarlo en un <strong>microcontrolador o sistema embebido de bajo costo en CPU</strong> que requiera reentrenarse rápido en planta, elegimos el <strong>SVM con Kernel RBF (90,83% de exactitud)</strong>, ya que entrena en apenas <strong>12 segundos</strong> y clasifica cada pieza en <strong>1,27 milisegundos</strong>.</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
